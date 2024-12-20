@@ -1,34 +1,31 @@
-export default function EventDetails({ params }: { params: { id: string } }) {
-  const events: Record<
-    string,
-    { title: string; date: string; time: string; location: string }
-  > = {
-    "1": {
-      title: "Rocket Launch",
-      date: "20/12/2024",
-      time: "9:00",
-      location: "Silverdale, Auckland, New Zealand",
-    },
-    "2": {
-      title: "Rocket Launch",
-      date: "21/12/2024",
-      time: "10:00",
-      location: "Silverdale, Auckland, New Zealand",
-    },
-  };
+import events from "../eventsData"; // Import shared event data
+import Link from "next/link"; // Import Link component
 
-  const event = events[params.id];
+export default function EventDetails({ params }: { params: { id: string } }) {
+  const event = events.find((e) => e.id === params.id); // Find event by ID
 
   if (!event) {
-    return <h1>Event not found</h1>;
+    return (
+      <div
+        style={{ padding: "20px", color: "#fff", backgroundColor: "#1e1e1e" }}
+      >
+        <h1>Event not found</h1>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h1>{event.title}</h1>
+    <div style={{ padding: "20px", color: "#fff", backgroundColor: "#1e1e1e" }}>
+      <h1 style={{ color: "#FF4500", marginBottom: "20px" }}>{event.title}</h1>
       <p>Date: {event.date}</p>
       <p>Time: {event.time}</p>
       <p>Location: {event.location}</p>
+      <Link
+        href="/events"
+        style={{ color: "#FF4500", textDecoration: "underline" }}
+      >
+        Back to Events
+      </Link>
     </div>
   );
 }
