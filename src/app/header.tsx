@@ -1,27 +1,28 @@
 "use client";
 
 import Link from "next/link";
+import "./styles/header.css";
 import { usePathname } from "next/navigation";
+import Head from "next/head";
 
 export default function Header() {
   const pathname = usePathname();
 
   return (
-    <div className="flex items-center justify-center h-16  border-b-2 border-blue-900">
-      <ul className="flex flex-row items-center space-x-40">
-        <li className={pathname == "/" ? "border-b-2" : ""}>
-          <Link href="/">home</Link>
-        </li>
-        <li className={pathname == "/events" ? "border-b-2" : ""}>
-          <Link href="/events">events</Link>
-        </li>
-        <li className={pathname == "/rockets" ? "border-b-2" : ""}>
-          <Link href="/rockets">rockets</Link>
-        </li>
-        <li className={pathname == "/blog" ? "border-b-2" : ""}>
-          <Link href="/blog">blog</Link>
-        </li>
-      </ul>
-    </div>
+    <header>
+      <div className="link">
+        <Link href="/">Home</Link>
+      </div>
+      <div className="link">
+        <Link href="/events">events</Link>
+      </div>
+      <div className="link">
+        <Link href="/rockets">rockets</Link>
+      </div>
+      <div className="link">
+        {" "}
+        <Link href="/blog">blog</Link>
+      </div>
+    </header>
   );
 }

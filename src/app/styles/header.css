@@ -1,0 +1,11 @@
+header {
+  background-color: #1f2421;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+}
+
+.link {
+  flex: 1;
+}
