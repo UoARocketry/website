@@ -9,3 +9,25 @@ header {
 .link {
   flex: 1;
 }
+
+.link a {
+  text-align: center;
+}
+
+header div {
+  display: flex;
+  justify-content: center;
+}
+
+.active {
+  color: #c0512a;
+}
+
+.logo {
+  flex-grow: 2;
+}
+
+.logo .logo-img {
+  width: auto;
+  height: 40px;
+}

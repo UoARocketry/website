@@ -3,25 +3,28 @@
 import Link from "next/link";
 import "./styles/header.css";
 import { usePathname } from "next/navigation";
-import Head from "next/head";
+import logo from "./resources/logo.png";
+import Image from "next/image";
 
 export default function Header() {
   const pathname = usePathname();
 
   return (
     <header>
-      <div className="link">
-        <Link href="/">Home</Link>
+      <div className={"link " + (pathname === "/" ? "active" : "")}>
+        <Link href="/">HOME</Link>
       </div>
-      <div className="link">
-        <Link href="/events">events</Link>
+      <div className={"link " + (pathname === "/events" ? "active" : "")}>
+        <Link href="/events">EVENTS</Link>
       </div>
-      <div className="link">
-        <Link href="/rockets">rockets</Link>
+      <div className="logo">
+        <Image className="logo-img" src={logo} alt="logo" />
       </div>
-      <div className="link">
-        {" "}
-        <Link href="/blog">blog</Link>
+      <div className={"link " + (pathname === "/rockets" ? "active" : "")}>
+        <Link href="/rockets">ROCKETS</Link>
+      </div>
+      <div className={"link " + (pathname === "/blog" ? "active" : "")}>
+        <Link href="/blog">BLOG</Link>
       </div>
     </header>
   );
