@@ -1,0 +1,27 @@
+footer {
+  background-color: #1e1e1e;
+}
+
+footer .center {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+footer .social-logo {
+  height: 30px;
+  width: 30px;
+  margin: 0 8px;
+}
+footer .club-logo {
+  height: 40px;
+  width: auto;
+  margin: 0;
+}
+
+footer p {
+  font-size: 12;
+}
+
+.copyright {
+  font-size: 8;
+}
