@@ -12,16 +12,31 @@ footer .social-logo {
   width: 30px;
   margin: 0 8px;
 }
+footer .social-logo:hover {
+  opacity: 0.7;
+}
+
 footer .club-logo {
   height: 40px;
   width: auto;
   margin: 0;
 }
 
+footer .club-logo:hover {
+  opacity: 0.7;
+}
+
 footer p {
   font-size: 12;
 }
 
+footer p:hover {
+  color: #a3a1a1;
+}
+
 .copyright {
   font-size: 8;
+}
+.copyright:hover {
+  color: white;
 }

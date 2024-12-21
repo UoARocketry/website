@@ -16,6 +16,10 @@ header {
   height: 100%;
 }
 
+.link a:hover {
+  color: #bd7358;
+}
+
 header div {
   display: flex;
   justify-content: center;
@@ -27,6 +31,10 @@ header div {
 
 .logo {
   flex-grow: 2;
+}
+
+.logo:hover {
+  opacity: 0.7;
 }
 
 .logo .logo-img {
