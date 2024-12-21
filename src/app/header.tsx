@@ -1,27 +1,33 @@
 "use client";
 
 import Link from "next/link";
+import "./styles/header.css";
 import { usePathname } from "next/navigation";
+import logo from "./resources/logo.png";
+import Image from "next/image";
 
 export default function Header() {
   const pathname = usePathname();
 
   return (
-    <div className="flex items-center justify-center h-16  border-b-2 border-blue-900">
-      <ul className="flex flex-row items-center space-x-40">
-        <li className={pathname == "/" ? "border-b-2" : ""}>
-          <Link href="/">home</Link>
-        </li>
-        <li className={pathname == "/events" ? "border-b-2" : ""}>
-          <Link href="/events">events</Link>
-        </li>
-        <li className={pathname == "/rockets" ? "border-b-2" : ""}>
-          <Link href="/rockets">rockets</Link>
-        </li>
-        <li className={pathname == "/blog" ? "border-b-2" : ""}>
-          <Link href="/blog">blog</Link>
-        </li>
-      </ul>
-    </div>
+    <header>
+      <div className={"link " + (pathname === "/" ? "active" : "")}>
+        <Link href="/">HOME</Link>
+      </div>
+      <div className={"link " + (pathname === "/events" ? "active" : "")}>
+        <Link href="/events">
+          <span>EVENTS</span>
+        </Link>
+      </div>
+      <div className="logo">
+        <Image className="logo-img" src={logo} alt="logo" />
+      </div>
+      <div className={"link " + (pathname === "/rockets" ? "active" : "")}>
+        <Link href="/rockets">ROCKETS</Link>
+      </div>
+      <div className={"link " + (pathname === "/blog" ? "active" : "")}>
+        <Link href="/blog">BLOG</Link>
+      </div>
+    </header>
   );
 }
