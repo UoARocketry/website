@@ -15,7 +15,9 @@ export default function Header() {
         <Link href="/">HOME</Link>
       </div>
       <div className={"link " + (pathname === "/events" ? "active" : "")}>
-        <Link href="/events">EVENTS</Link>
+        <Link href="/events">
+          <span>EVENTS</span>
+        </Link>
       </div>
       <div className="logo">
         <Image className="logo-img" src={logo} alt="logo" />

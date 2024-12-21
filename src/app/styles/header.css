@@ -11,7 +11,9 @@ header {
 }
 
 .link a {
-  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
 }
 
 header div {
