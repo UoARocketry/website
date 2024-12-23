@@ -2,36 +2,78 @@ import Image from "next/image";
 import "./styles/home.css";
 import rocketCgi from "./resources/rocket-cgi.png";
 import mars from "./resources/mars.png";
+import chevronDown from "./resources/chevron down.svg";
 
 export default function Home() {
   return (
-    <div className="flex pt-10">
-      <div className="md:flex-[2_1_0%] flex-1 ml-[-30px]">
-        <Image src={rocketCgi} alt="rocket" />
-      </div>
-      <div className="flex-[5_2_0%] ml-20 ">
-        <h2 className="pt-2">
-          <b>UNIVERSITY OF AUCKLAND</b>
-        </h2>
-        <h1 className="text-4xl">
-          <b>ROCKETRY CLUB</b>
-        </h1>
-        <p className="pt-3">
-          The University Of Auckland Rocketry Club is a club dedicated to all
-          things rockets. We give students the opportunity to design, build and
-          fly rockets as we learn about aerospace.
-        </p>
-        <div>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5">
-            Join Us
-          </button>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5 ml-5">
-            what we do
-          </button>
+    <div className="bg-[#1e1e1e]">
+      <div className="flex pt-10">
+        <div className="md:flex-[2_1_0%] flex-1 ml-[-30px]">
+          <Image src={rocketCgi} alt="rocket" />
         </div>
+        <div className="flex-[5_2_0%] ml-20 flex flex-col pb-3 pt-10">
+          <h2 className="">
+            <b>UNIVERSITY OF AUCKLAND</b>
+          </h2>
+          <h1 className="text-5xl flex-1 text-orange-500">
+            <b>ROCKETRY CLUB</b>
+          </h1>
+          <p className="flex-1">
+            The University Of Auckland Rocketry Club is a club dedicated to all
+            things rockets. We give students the opportunity to design, build
+            and fly rockets as we learn about all things aerospace.
+          </p>
+          <div className="flex-1" />
+          <div className="flex-1">
+            <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded mt-5">
+              SIGN UP
+            </button>
+            <button className="bg-none text-orange-500 hover:text-orange-700 font-bold py-2 px-4 rounded mt-5 ml-5">
+              WHAT WE DO ➔
+            </button>
+          </div>
+          <div className="flex-1" />
+        </div>
+        <div className="md:flex-[2_1_0%] flex-1"></div>
       </div>
-      <div className="md:flex-[2_1_0%] flex-1"></div>
-      {/* <Image src={mars} alt="rocket" /> */}
+      <div className="flex justify-center">
+        <Image className="w-[60px]" src={chevronDown} alt="down" />
+      </div>
+      <div className="flex mt-12">
+        <div className="flex-1" />
+        <div className="flex-[8_8_0%]">
+          <div className="flex flex-col">
+            <h2>
+              <b className="text-l">LEARN MORE ABOUT</b>
+            </h2>
+            <h1 className="text-4xl text-orange-500">
+              <b>ROCKETRY</b>
+            </h1>
+            <p>
+              <b>
+                Our blog provides insights into the exciting projects and
+                rockets our team is building, offering a behind-the-scenes look
+                at the innovative work happening within the club. Keep an eye on
+                our Events page to join us at launch days, workshops, and
+                competitions where our rockets take flight and our passion for
+                aerospace comes to life!
+              </b>
+            </p>
+          </div>
+          <div className="flex">
+            <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded mt-5">
+              UPCOMING EVENTS
+            </button>
+            <button className="bg-none text-orange-500 hover:text-orange-700 font-bold py-2 px-4 rounded mt-5 ml-5">
+              BLOG ➔
+            </button>
+          </div>
+          <h1 className="mt-20 text-4xl">
+            <b>2025 EXECUTIVE TEAM</b>
+          </h1>
+        </div>
+        <div className="flex-[3_3_0%]" />
+      </div>
     </div>
   );
 }
