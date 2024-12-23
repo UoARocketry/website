@@ -81,6 +81,15 @@ export default function Home() {
           <ExecTile name={member.name} title={member.title} key={member.name} />
         ))}
       </div>
+      <div className="flex mt-20">
+        <div className="flex-1" />
+        <div className="flex-[12_8_0%]">
+          <h1 className="text-4xl">
+            <b>SPONSORS</b>
+          </h1>
+          <p>We will need to add sponsors here as they come in (in theory)</p>
+        </div>
+      </div>
     </div>
   );
 }
