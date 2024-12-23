@@ -3,6 +3,8 @@ import "./styles/home.css";
 import rocketCgi from "./resources/rocket-cgi.png";
 import mars from "./resources/mars.png";
 import chevronDown from "./resources/chevron down.svg";
+import ExecTile from "./resources/exec_tile";
+import ExecMember from "./resources/execMembersData";
 
 export default function Home() {
   return (
@@ -36,10 +38,10 @@ export default function Home() {
         </div>
         <div className="md:flex-[2_1_0%] flex-1"></div>
       </div>
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <Image className="w-[60px]" src={chevronDown} alt="down" />
-      </div>
-      <div className="flex mt-12">
+      </div> */}
+      <div className="flex mt-[120px]">
         <div className="flex-1" />
         <div className="flex-[8_8_0%]">
           <div className="flex flex-col">
@@ -73,6 +75,11 @@ export default function Home() {
           </h1>
         </div>
         <div className="flex-[3_3_0%]" />
+      </div>
+      <div className="flex mt-10 overflow-x-auto scroll">
+        {ExecMember.map((member) => (
+          <ExecTile name={member.name} title={member.title} key={member.name} />
+        ))}
       </div>
     </div>
   );
