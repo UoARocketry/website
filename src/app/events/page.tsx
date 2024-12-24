@@ -1,5 +1,4 @@
-import Link from "next/link";
-import events from "./eventsData"; // Import shared event data
+import events from "./eventsData";
 
 export default function EventsPage() {
   return (
@@ -7,7 +6,6 @@ export default function EventsPage() {
       <h1 style={{ textAlign: "center", marginBottom: "40px" }}>
         Upcoming Events
       </h1>
-
       {/* Two-column grid for events */}
       <div
         style={{
@@ -16,7 +14,7 @@ export default function EventsPage() {
           gap: "20px",
         }}
       >
-        {events.map((event) => (
+        {events.upcoming.map((event) => (
           <div
             key={event.id}
             style={{
@@ -25,34 +23,23 @@ export default function EventsPage() {
               borderRadius: "8px",
               backgroundColor: "#333",
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
-              gap: "20px",
+              gap: "10px",
             }}
           >
-            {/* Placeholder for image */}
-            <div
-              style={{
-                width: "100px",
-                height: "100px",
-                backgroundColor: "#f0f0f0",
-                borderRadius: "8px",
-              }}
-            />
-            {/* Event details */}
-            <div>
-              <h2 style={{ color: "#FF4500", marginBottom: "10px" }}>
-                {event.title}
-              </h2>
-              <p>{event.time}</p>
-              <p>{event.date}</p>
-              <p>{event.location}</p>
-              <Link
-                href={`/events/${event.id}`}
-                style={{ color: "#FF4500", textDecoration: "underline" }}
-              >
-                View Details
-              </Link>
-            </div>
+            <h2 style={{ color: "#FF4500", marginBottom: "10px" }}>
+              {event.title}
+            </h2>
+            <p>{event.time}</p>
+            <p>{event.date}</p>
+            <p>{event.location}</p>
+            <a
+              href={`/events/${event.id}`}
+              style={{ color: "#FF4500", textDecoration: "underline" }}
+            >
+              View Details
+            </a>
           </div>
         ))}
       </div>

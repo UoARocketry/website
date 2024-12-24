@@ -19,16 +19,16 @@ const events = {
     {
       id: 3,
       title: "Rocket Launch",
-      date: "24/12/2024",
+      date: "19/12/2024",
       time: "9:00",
-      location: "Weichurch, Connecticut, USA",
+      location: "Silverdale, Auckland, New Zealand",
     },
     {
       id: 4,
       title: "Rocket Launch",
-      date: "23/12/2024",
-      time: "10:00",
-      location: "Weichurch, Connecticut, USA",
+      date: "18/12/2024",
+      time: "9:00",
+      location: "Silverdale, Auckland, New Zealand",
     },
   ],
 };
