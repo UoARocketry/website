@@ -77,8 +77,8 @@ export default function Home() {
         <div className="flex-[3_3_0%]" />
       </div>
       <div className="flex mt-10 overflow-x-auto scroll">
-        {ExecMember.map((member) => (
-          <ExecTile name={member.name} title={member.title} key={member.name} />
+        {ExecMember.map((member, index) => (
+          <ExecTile name={member.name} title={member.title} key={index} />
         ))}
       </div>
       <div className="flex mt-20">
