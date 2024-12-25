@@ -66,7 +66,7 @@ export default function Home() {
             <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded mt-5">
               UPCOMING EVENTS
             </button>
-            <button className="bg-none text-orange-500 hover:text-orange-700 font-bold py-2 px-4 rounded mt-5 ml-5">
+            <button className="bg-none text-orange-500 hover:text-orange-700 font-bold mt-5 ml-5">
               BLOG ➔
             </button>
           </div>
@@ -83,12 +83,21 @@ export default function Home() {
       </div>
       <div className="flex mt-20">
         <div className="flex-1" />
-        <div className="flex-[12_8_0%]">
+        <div className="flex-[6_8_0%]">
           <h1 className="text-4xl">
             <b>SPONSORS</b>
           </h1>
-          <p>We will need to add sponsors here as they come in (in theory)</p>
+          <p>
+            A huge shout out to the people and companies that make this possible
+          </p>
         </div>
+        <div className="flex-[4_4_0%] flex items-center justify-center">
+          <div className="flex-1" />
+          <button className="bg-none text-orange-500 hover:text-orange-700 font-bold text-right">
+            BECOME A SPONSOR ➔
+          </button>
+        </div>
+        <div className="flex-1" />
       </div>
     </div>
   );
