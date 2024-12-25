@@ -19,22 +19,88 @@ export default function BlogDetails({ params }: { params: { id: string } }) {
         padding: "20px",
         backgroundColor: "#1e1e1e",
         color: "#fff",
-        textAlign: "center",
       }}
     >
-      <h1 style={{ color: "#FF4500", marginBottom: "20px" }}>{blog.title}</h1>
-      <p style={{ marginBottom: "20px" }}>{blog.date}</p>
-      <p style={{ marginBottom: "40px" }}>By: {blog.author}</p>
+      {/* Blog Header */}
+      <h1
+        style={{ color: "#FF4500", textAlign: "center", marginBottom: "20px" }}
+      >
+        {blog.title}
+      </h1>
+      <p style={{ textAlign: "center", marginBottom: "10px" }}>{blog.date}</p>
+      <p style={{ textAlign: "center", marginBottom: "40px" }}>
+        By: {blog.author}
+      </p>
+
+      {/* Main Content Area */}
       <div
         style={{
-          marginTop: "40px",
-          padding: "20px",
-          backgroundColor: "#333",
-          borderRadius: "8px",
-          color: "#fff",
+          display: "flex",
+          gap: "20px",
         }}
       >
-        <p>{blog.content}</p>
+        {/* Left-Side Image Placeholders */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+          }}
+        >
+          <div
+            style={{
+              width: "150px",
+              height: "150px",
+              backgroundColor: "#cccccc",
+              borderRadius: "8px",
+              border: "2px solid #FF4500",
+            }}
+          ></div>
+          <div
+            style={{
+              width: "150px",
+              height: "150px",
+              backgroundColor: "#cccccc",
+              borderRadius: "8px",
+              border: "2px solid #FF4500",
+            }}
+          ></div>
+          <div
+            style={{
+              width: "150px",
+              height: "150px",
+              backgroundColor: "#cccccc",
+              borderRadius: "8px",
+              border: "2px solid #FF4500",
+            }}
+          ></div>
+        </div>
+
+        {/* Blog Content */}
+        <div style={{ textAlign: "left", flex: 1 }}>
+          <p style={{ marginBottom: "20px" }}>{blog.content}</p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+            elementum et felis sed fringilla. Morbi nec tincidunt dolor. Lorem
+            ipsum dolor sit amet.orem ipsum dolor sit amet, consectetur
+            adipiscing elit. Vivamus elementum et felis sed fringilla. Morbi nec
+            tincidunt dolor. Lorem ipsum dolor sit amet.orem ipsum dolor sit
+            amet, consectetur adipiscing elit. Vivamus elementum et felis sed
+            fringilla. Morbi nec tincidunt dolor. Lorem ipsum dolor sit
+            amet.orem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+            elementum et felis sed fringilla. Morbi nec tincidunt dolor. Lorem
+            ipsum dolor sit amet.orem ipsum dolor sit amet, consectetur
+            adipiscing elit. Vivamus elementum et felis sed fringilla. Morbi nec
+            tincidunt dolor. Lorem ipsum dolor sit amet.orem ipsum dolor sit
+            amet, consectetur adipiscing elit. Vivamus elementum et felis sed
+            fringilla. Morbi nec tincidunt dolor. Lorem ipsum dolor sit
+            amet.orem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+            elementum et felis sed fringilla. Morbi nec tincidunt dolor. Lorem
+            ipsum dolor sit amet.orem ipsum dolor sit amet, consectetur
+            adipiscing elit. Vivamus elementum et felis sed fringilla. Morbi nec
+            tincidunt dolor. Lorem ipsum dolor sit amet.
+          </p>
+        </div>
       </div>
     </div>
   );
