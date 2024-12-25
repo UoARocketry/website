@@ -11,10 +11,11 @@ export default function Header() {
 
   return (
     <header>
+      {/*If the home link is not highlighting properly it is because the url isn't equal to "/" and as coded it needs to be*/}
       <div className={"link " + (pathname === "/" ? "active" : "")}>
         <Link href="/">HOME</Link>
       </div>
-      <div className={"link " + (pathname === "/events" ? "active" : "")}>
+      <div className={"link " + (pathname.includes("/events") ? "active" : "")}>
         <Link href="/events">
           <span>EVENTS</span>
         </Link>
@@ -22,10 +23,12 @@ export default function Header() {
       <div className="logo">
         <Image className="logo-img" src={logo} alt="logo" />
       </div>
-      <div className={"link " + (pathname === "/rockets" ? "active" : "")}>
+      <div
+        className={"link " + (pathname.includes("/rockets") ? "active" : "")}
+      >
         <Link href="/rockets">ROCKETS</Link>
       </div>
-      <div className={"link " + (pathname === "/blog" ? "active" : "")}>
+      <div className={"link " + (pathname.includes("/blog") ? "active" : "")}>
         <Link href="/blog">BLOG</Link>
       </div>
     </header>
