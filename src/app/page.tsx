@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, createRef } from "react";
 import Image from "next/image";
 import "./styles/home.css";
 import rocketCgi from "./resources/rocket-cgi.png";
@@ -11,6 +11,14 @@ import ExecMember from "./resources/execMembersData";
 
 export default function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollRefs = useRef<React.RefObject<HTMLDivElement>[]>([]);
+
+  const [scrollIndex, setScrollIndex] = useState(0);
+
+  // Create refs for each ExecTile from supplied data
+  scrollRefs.current = [...Array(ExecMember.length).keys()].map(
+    (_, i) => scrollRefs.current[i] ?? createRef()
+  );
 
   useEffect(() => {
     console.log(scrollContainerRef.current);
@@ -18,13 +26,21 @@ export default function Home() {
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -200, behavior: "smooth" });
+      if (scrollIndex > 0) setScrollIndex(scrollIndex - 1);
+      scrollRefs.current[scrollIndex].current.scrollIntoView({
+        behavior: "smooth",
+      });
+      // scrollContainerRef.current.scrollBy({ left: -200, behavior: "smooth" });
     }
   };
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 200, behavior: "smooth" });
+      if (scrollIndex < ExecMember.length - 4) setScrollIndex(scrollIndex + 1);
+      scrollRefs.current[scrollIndex + 3].current.scrollIntoView({
+        behavior: "smooth",
+      });
+      // scrollContainerRef.current.scrollBy({ left: 200, behavior: "smooth" });
     }
   };
 
@@ -109,7 +125,9 @@ export default function Home() {
           ref={scrollContainerRef}
         >
           {ExecMember.map((member, index) => (
-            <ExecTile name={member.name} title={member.title} key={index} />
+            <div ref={scrollRefs.current[index]} key={index}>
+              <ExecTile name={member.name} title={member.title} key={index} />
+            </div>
           ))}
         </div>
         <button
