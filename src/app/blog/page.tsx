@@ -4,7 +4,9 @@ import blogData from "./blogData";
 export default function BlogPage() {
   return (
     <div style={{ padding: "20px", backgroundColor: "#1e1e1e", color: "#fff" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "40px" }}>
+      <h1
+        style={{ textAlign: "center", marginBottom: "40px", color: "#FF4500" }}
+      >
         Recent Blog Posts
       </h1>
       <div
@@ -18,23 +20,58 @@ export default function BlogPage() {
           <div
             key={blog.id}
             style={{
-              border: "2px solid #FF4500",
-              padding: "20px",
+              width: "100%",
+              maxWidth: "300px",
+              backgroundColor: "#1e1e1e",
               borderRadius: "8px",
-              backgroundColor: "#333",
+              overflow: "hidden",
+              border: "2px solid #FF4500",
             }}
           >
-            <h2 style={{ color: "#FF4500", marginBottom: "10px" }}>
-              {blog.title}
-            </h2>
-            <p>{blog.date}</p>
-            <p>By: {blog.author}</p>
-            <Link
-              href={`/blog/${blog.id}`}
-              style={{ color: "#FF4500", textDecoration: "underline" }}
+            {/* Image Placeholder */}
+            <div
+              style={{
+                width: "100%",
+                height: "150px",
+                backgroundColor: "#cccccc",
+              }}
+            ></div>
+            {/* Blog Title Section */}
+            <div
+              style={{
+                backgroundColor: "#FF4500",
+                padding: "10px",
+                textAlign: "center",
+              }}
             >
-              View Details
-            </Link>
+              <p style={{ color: "#fff", margin: "5px 0", fontSize: "14px" }}>
+                {blog.date}
+              </p>
+              <h2
+                style={{
+                  color: "#fff",
+                  margin: "5px 0",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                }}
+              >
+                {blog.title}
+              </h2>
+              <p style={{ color: "#fff", margin: "5px 0", fontSize: "14px" }}>
+                By: {blog.author}
+              </p>
+              <Link
+                href={`/blog/${blog.id}`}
+                style={{
+                  color: "#fff",
+                  textDecoration: "underline",
+                  display: "block",
+                  marginTop: "10px",
+                }}
+              >
+                View Details
+              </Link>
+            </div>
           </div>
         ))}
       </div>
