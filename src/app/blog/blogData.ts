@@ -14,6 +14,13 @@ const blogData = {
       author: "Ayesha Babar",
       content: "Suspendisse potenti. Nullam fringilla orci quis turpis...",
     },
+    {
+      id: 3,
+      title: "Space Exploration",
+      date: "15/12/2024",
+      author: "Ayesha Babar",
+      content: "Suspendisse potenti. Nullam fringilla orci quis turpis...",
+    },
   ],
 };
 
