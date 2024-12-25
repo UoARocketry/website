@@ -1,9 +1,17 @@
 import events from "./eventsData";
 import Link from "next/link";
+import "@fontsource/inter"; // Import Inter font
 
 export default function EventsPage() {
   return (
-    <div style={{ padding: "20px", backgroundColor: "#1e1e1e", color: "#fff" }}>
+    <div
+      style={{
+        padding: "20px",
+        backgroundColor: "#1e1e1e",
+        color: "#fff",
+        fontFamily: "Inter, sans-serif", // Apply Inter font
+      }}
+    >
       <h1 style={{ textAlign: "center", marginBottom: "40px" }}>
         Upcoming Events
       </h1>
@@ -17,54 +25,65 @@ export default function EventsPage() {
         }}
       >
         {events.upcoming.map((event) => (
-          <div
+          <Link
             key={event.id}
-            style={{
-              display: "flex",
-              border: "2px solid #FF4500",
-              borderRadius: "8px",
-              backgroundColor: "#D95435",
-              overflow: "hidden",
-            }}
+            href={`/events/${event.id}`}
+            style={{ textDecoration: "none" }} // Remove underline
           >
-            {/* Image Placeholder */}
             <div
               style={{
-                flex: "1",
-                backgroundColor: "#ccc",
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                border: "4px solid #BF512E", // Orange border
+                borderRadius: "0", // No rounded corners
+                backgroundColor: "#BF512E",
+                overflow: "hidden",
+                width: "604px",
+                height: "268px",
+                cursor: "pointer", // Indicate clickable area
               }}
             >
-              <span style={{ color: "#777" }}>Image Placeholder</span>
-            </div>
-
-            {/* Event Details */}
-            <div
-              style={{
-                flex: "2",
-                padding: "20px",
-                color: "#fff",
-              }}
-            >
-              <h2 style={{ margin: "0 0 10px 0" }}>{event.title}</h2>
-              <p style={{ margin: "5px 0" }}>{event.time}</p>
-              <p style={{ margin: "5px 0" }}>{event.date}</p>
-              <p style={{ margin: "5px 0" }}>{event.location}</p>
-              <Link
-                href={`/events/${event.id}`}
+              {/* Image Placeholder */}
+              <div
                 style={{
-                  color: "#FF4500",
-                  textDecoration: "underline",
-                  marginTop: "10px",
-                  display: "inline-block",
+                  flex: "none",
+                  width: "300px",
+                  height: "100%",
+                  backgroundColor: "#ccc",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center",
                 }}
               >
-                View Details
-              </Link>
+                <span style={{ color: "#777" }}>Image Placeholder</span>
+              </div>
+
+              {/* Event Details */}
+              <div
+                style={{
+                  flex: "2",
+                  padding: "20px",
+                  color: "#fff",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <h2 style={{ margin: "0 0 10px 0", fontSize: "36px" }}>
+                  {event.title}
+                </h2>
+                <p style={{ margin: "5px 0", fontSize: "18px" }}>
+                  {event.time}
+                </p>
+                <p style={{ margin: "5px 0", fontSize: "30px" }}>
+                  {event.date}
+                </p>
+                <p style={{ margin: "5px 0", fontSize: "12px" }}>
+                  {event.location}
+                </p>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
@@ -78,54 +97,65 @@ export default function EventsPage() {
         }}
       >
         {events.past.map((event) => (
-          <div
+          <Link
             key={event.id}
-            style={{
-              display: "flex",
-              border: "2px solid #FF4500",
-              borderRadius: "8px",
-              backgroundColor: "#D95435",
-              overflow: "hidden",
-            }}
+            href={`/events/${event.id}`}
+            style={{ textDecoration: "none" }} // Remove underline
           >
-            {/* Image Placeholder */}
             <div
               style={{
-                flex: "1",
-                backgroundColor: "#ccc",
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                border: "4px solid #BF512E", // Orange border
+                borderRadius: "0", // No rounded corners
+                backgroundColor: "#BF512E",
+                overflow: "hidden",
+                width: "604px",
+                height: "268px",
+                cursor: "pointer", // Indicate clickable area
               }}
             >
-              <span style={{ color: "#777" }}>Image Placeholder</span>
-            </div>
-
-            {/* Event Details */}
-            <div
-              style={{
-                flex: "2",
-                padding: "20px",
-                color: "#fff",
-              }}
-            >
-              <h2 style={{ margin: "0 0 10px 0" }}>{event.title}</h2>
-              <p style={{ margin: "5px 0" }}>{event.time}</p>
-              <p style={{ margin: "5px 0" }}>{event.date}</p>
-              <p style={{ margin: "5px 0" }}>{event.location}</p>
-              <Link
-                href={`/events/${event.id}`}
+              {/* Image Placeholder */}
+              <div
                 style={{
-                  color: "#FF4500",
-                  textDecoration: "underline",
-                  marginTop: "10px",
-                  display: "inline-block",
+                  flex: "none",
+                  width: "300px",
+                  height: "100%",
+                  backgroundColor: "#ccc",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center",
                 }}
               >
-                View Details
-              </Link>
+                <span style={{ color: "#777" }}>Image Placeholder</span>
+              </div>
+
+              {/* Event Details */}
+              <div
+                style={{
+                  flex: "2",
+                  padding: "20px",
+                  color: "#fff",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <h2 style={{ margin: "0 0 10px 0", fontSize: "36px" }}>
+                  {event.title}
+                </h2>
+                <p style={{ margin: "5px 0", fontSize: "18px" }}>
+                  {event.time}
+                </p>
+                <p style={{ margin: "5px 0", fontSize: "18px" }}>
+                  {event.date}
+                </p>
+                <p style={{ margin: "5px 0", fontSize: "18px" }}>
+                  {event.location}
+                </p>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
