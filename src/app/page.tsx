@@ -1,3 +1,6 @@
+"use client";
+
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import "./styles/home.css";
 import rocketCgi from "./resources/rocket-cgi.png";
@@ -7,6 +10,24 @@ import ExecTile from "./resources/exec_tile";
 import ExecMember from "./resources/execMembersData";
 
 export default function Home() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    console.log(scrollContainerRef.current);
+  }, []);
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -200, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 200, behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="bg-[#1e1e1e]">
       <div className="flex pt-10">
@@ -76,10 +97,27 @@ export default function Home() {
         </div>
         <div className="flex-[3_3_0%]" />
       </div>
-      <div className="flex mt-10 overflow-x-auto scroll">
-        {ExecMember.map((member, index) => (
-          <ExecTile name={member.name} title={member.title} key={index} />
-        ))}
+      <div className="flex mt-10">
+        <button
+          onClick={scrollLeft}
+          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded opacity-75"
+        >
+          SCROLL LEFT
+        </button>
+        <div
+          className="flex overflow-x-auto hide-scrollbar"
+          ref={scrollContainerRef}
+        >
+          {ExecMember.map((member, index) => (
+            <ExecTile name={member.name} title={member.title} key={index} />
+          ))}
+        </div>
+        <button
+          onClick={scrollRight}
+          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded opacity-75"
+        >
+          SCROLL RIGHT
+        </button>
       </div>
       <div className="flex mt-20">
         <div className="flex-1" />
