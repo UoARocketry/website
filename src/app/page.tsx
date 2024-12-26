@@ -15,6 +15,8 @@ export default function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollRefs = useRef<React.RefObject<HTMLDivElement>[]>([]);
 
+  const [execWidth, setExecWidth] = useState(220);
+
   const [scrollIndex, setScrollIndex] = useState(0);
 
   // Create refs for each ExecTile from supplied data
@@ -23,13 +25,23 @@ export default function Home() {
   );
 
   useEffect(() => {
-    if (scrollContainerRef.current && scrollRefs.current[0]?.current) {
-      console.log(
-        scrollContainerRef.current.clientWidth /
-          scrollRefs.current[0].current.clientWidth
-      );
-    }
-  }, []);
+    const handleResize = () => {
+      if (scrollContainerRef.current) {
+        const newExecWidth =
+          scrollContainerRef.current.clientWidth /
+          Math.floor(scrollContainerRef.current.clientWidth / 220);
+        setExecWidth(newExecWidth);
+        scrollRefs.current[scrollIndex].current.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [execWidth]);
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -37,7 +49,6 @@ export default function Home() {
       scrollRefs.current[scrollIndex].current.scrollIntoView({
         behavior: "smooth",
       });
-      // scrollContainerRef.current.scrollBy({ left: -200, behavior: "smooth" });
     }
   };
 
@@ -62,9 +73,10 @@ export default function Home() {
       ].current.scrollIntoView({
         behavior: "smooth",
       });
-      // scrollContainerRef.current.scrollBy({ left: 200, behavior: "smooth" });
     }
   };
+
+  console.log(execWidth);
 
   return (
     <div className="bg-[#1e1e1e]">
@@ -145,7 +157,14 @@ export default function Home() {
         </button>
         <div className="grid-container hide-scrollbar" ref={scrollContainerRef}>
           {ExecMember.map((member, index) => (
-            <div ref={scrollRefs.current[index]} key={index}>
+            <div
+              ref={scrollRefs.current[index]}
+              key={index}
+              className="flex justify-center"
+              style={{
+                width: execWidth,
+              }}
+            >
               <ExecTile name={member.name} title={member.title} key={index} />
             </div>
           ))}
