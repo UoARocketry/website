@@ -15,8 +15,10 @@ export default function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollRefs = useRef<React.RefObject<HTMLDivElement>[]>([]);
 
+  // Width for exec tile
   const [execWidth, setExecWidth] = useState(220);
 
+  // Index the exec tiles are scrolled to
   const [scrollIndex, setScrollIndex] = useState(0);
 
   // Create refs for each ExecTile from supplied data
@@ -24,6 +26,7 @@ export default function Home() {
     (_, i) => scrollRefs.current[i] ?? createRef()
   );
 
+  // Detect screen resize and update exec tile width
   useEffect(() => {
     const handleResize = () => {
       if (scrollContainerRef.current) {
@@ -40,9 +43,12 @@ export default function Home() {
     return () => window.removeEventListener("resize", handleResize);
   }, [execWidth]);
 
+  // Scroll exec tiles left
   const scrollLeft = () => {
-    console.log("left");
+    // If scrollIndex is 0, do nothing
     const temp = Math.max(1, scrollIndex) - 1;
+
+    //Scroll to the left
     if (scrollContainerRef.current) {
       scrollRefs.current[temp].current.scrollIntoView({
         behavior: "smooth",
@@ -51,10 +57,12 @@ export default function Home() {
     setScrollIndex(temp);
   };
 
+  // Scroll exec tiles right
   const scrollRight = () => {
     let temp = 0;
     let scrollOffset = 0;
     if (scrollContainerRef.current) {
+      // If scrollIndex is equal to exec data length, do nothing
       scrollOffset = Math.floor(
         scrollContainerRef.current.clientWidth /
           scrollRefs.current[0].current.clientWidth
@@ -62,6 +70,7 @@ export default function Home() {
       temp = Math.min(scrollIndex + scrollOffset, ExecMember.length - 2) + 1;
     }
 
+    //scroll to the right
     if (scrollContainerRef.current) {
       scrollRefs.current[temp].current.scrollIntoView({
         behavior: "smooth",
@@ -101,9 +110,11 @@ export default function Home() {
         </div>
         <div className="md:flex-[2_1_0%] flex-1"></div>
       </div>
-      {/* <div className="flex justify-center">
-        <Image className="w-[60px]" src={chevronDown} alt="down" />
-      </div> */}
+      <div className="">
+        <div className="anchor float-right">
+          <Image src={mars} alt="Mars" className="infobox" />
+        </div>
+      </div>
       <div className="flex mt-[120px]">
         <div className="flex-1" />
         <div className="flex-[8_8_0%]">
@@ -143,7 +154,7 @@ export default function Home() {
         <button
           onClick={scrollLeft}
           className={`bg-none`}
-          style={{ opacity: scrollIndex === 0 ? 0.2 : 1 }}
+          style={{ opacity: scrollIndex === 0 ? 0.2 : 1 }} // If exec scroll is at start fade button
           title="Scroll Left"
         >
           <Image src={chevronLeft} className="w-[100px]" alt="right" />
@@ -166,6 +177,7 @@ export default function Home() {
           onClick={scrollRight}
           className="bg-none"
           style={{
+            // If exec scroll is at end fade end button
             opacity:
               ExecMember.length -
                 1 -
