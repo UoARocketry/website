@@ -6,6 +6,8 @@ import "./styles/home.css";
 import rocketCgi from "./resources/rocket-cgi.png";
 import mars from "./resources/mars.png";
 import chevronDown from "./resources/chevron down.svg";
+import chevronLeft from "./resources/chevron_backward.svg";
+import chevronRight from "./resources/chevron_forward.svg";
 import ExecTile from "./resources/exec_tile";
 import ExecMember from "./resources/execMembersData";
 
@@ -21,7 +23,12 @@ export default function Home() {
   );
 
   useEffect(() => {
-    console.log(scrollContainerRef.current);
+    if (scrollContainerRef.current && scrollRefs.current[0]?.current) {
+      console.log(
+        scrollContainerRef.current.clientWidth /
+          scrollRefs.current[0].current.clientWidth
+      );
+    }
   }, []);
 
   const scrollLeft = () => {
@@ -36,8 +43,23 @@ export default function Home() {
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      if (scrollIndex < ExecMember.length - 4) setScrollIndex(scrollIndex + 1);
-      scrollRefs.current[scrollIndex + 3].current.scrollIntoView({
+      if (
+        scrollIndex <
+        ExecMember.length -
+          Math.floor(
+            scrollContainerRef.current.clientWidth /
+              scrollRefs.current[0].current.clientWidth
+          ) -
+          1
+      )
+        setScrollIndex(scrollIndex + 1);
+      scrollRefs.current[
+        scrollIndex +
+          Math.floor(
+            scrollContainerRef.current.clientWidth /
+              scrollRefs.current[0].current.clientWidth
+          )
+      ].current.scrollIntoView({
         behavior: "smooth",
       });
       // scrollContainerRef.current.scrollBy({ left: 200, behavior: "smooth" });
@@ -116,14 +138,12 @@ export default function Home() {
       <div className="flex mt-10">
         <button
           onClick={scrollLeft}
-          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded opacity-75"
+          className="bg-none opacity-75"
+          title="Scroll Left"
         >
-          SCROLL LEFT
+          <Image src={chevronLeft} className="w-[100px]" alt="right" />
         </button>
-        <div
-          className="flex overflow-x-auto hide-scrollbar"
-          ref={scrollContainerRef}
-        >
+        <div className="grid-container hide-scrollbar" ref={scrollContainerRef}>
           {ExecMember.map((member, index) => (
             <div ref={scrollRefs.current[index]} key={index}>
               <ExecTile name={member.name} title={member.title} key={index} />
@@ -132,9 +152,10 @@ export default function Home() {
         </div>
         <button
           onClick={scrollRight}
-          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded opacity-75"
+          className="bg-none opacity-75"
+          title="Scroll Right"
         >
-          SCROLL RIGHT
+          <Image src={chevronRight} className="w-[100px]" alt="right" />
         </button>
       </div>
       <div className="flex mt-20">
