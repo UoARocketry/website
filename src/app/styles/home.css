@@ -13,16 +13,3 @@
   grid-auto-flow: column;
   overflow-x: auto;
 }
-
-.anchor {
-  anchor-name: --myAnchor;
-}
-
-.infobox {
-  position: absolute;
-  position-anchor: --myAnchor;
-  /* right: anchor(left);
-  bottom: anchor(bottom); */
-  anchor-position: center;
-  transform: translate(-60%, -40%) scale(0.9);
-}

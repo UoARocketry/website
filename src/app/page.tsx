@@ -110,10 +110,12 @@ export default function Home() {
         </div>
         <div className="md:flex-[2_1_0%] flex-1"></div>
       </div>
-      <div className="">
-        <div className="anchor float-right">
-          <Image src={mars} alt="Mars" className="infobox" />
-        </div>
+      <div className="float-right">
+        <Image
+          src={mars}
+          alt="Mars"
+          className="absolute transform translate-x-[-60%] translate-y-[-40%] scale-[0.9]"
+        />
       </div>
       <div className="flex mt-[120px]">
         <div className="flex-1" />
