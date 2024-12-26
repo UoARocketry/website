@@ -27,13 +27,10 @@ export default function Home() {
   useEffect(() => {
     const handleResize = () => {
       if (scrollContainerRef.current) {
-        const newExecWidth =
+        setExecWidth(
           scrollContainerRef.current.clientWidth /
-          Math.floor(scrollContainerRef.current.clientWidth / 220);
-        setExecWidth(newExecWidth);
-        scrollRefs.current[scrollIndex].current.scrollIntoView({
-          behavior: "smooth",
-        });
+            Math.floor(scrollContainerRef.current.clientWidth / 220)
+        );
       }
     };
 
@@ -44,39 +41,34 @@ export default function Home() {
   }, [execWidth]);
 
   const scrollLeft = () => {
+    console.log("left");
+    const temp = Math.max(1, scrollIndex) - 1;
     if (scrollContainerRef.current) {
-      if (scrollIndex > 0) setScrollIndex(scrollIndex - 1);
-      scrollRefs.current[scrollIndex].current.scrollIntoView({
+      scrollRefs.current[temp].current.scrollIntoView({
         behavior: "smooth",
       });
     }
+    setScrollIndex(temp);
   };
 
   const scrollRight = () => {
+    let temp = 0;
+    let scrollOffset = 0;
     if (scrollContainerRef.current) {
-      if (
-        scrollIndex <
-        ExecMember.length -
-          Math.floor(
-            scrollContainerRef.current.clientWidth /
-              scrollRefs.current[0].current.clientWidth
-          ) -
-          1
-      )
-        setScrollIndex(scrollIndex + 1);
-      scrollRefs.current[
-        scrollIndex +
-          Math.floor(
-            scrollContainerRef.current.clientWidth /
-              scrollRefs.current[0].current.clientWidth
-          )
-      ].current.scrollIntoView({
+      scrollOffset = Math.floor(
+        scrollContainerRef.current.clientWidth /
+          scrollRefs.current[0].current.clientWidth
+      );
+      temp = Math.min(scrollIndex + scrollOffset, ExecMember.length - 2) + 1;
+    }
+
+    if (scrollContainerRef.current) {
+      scrollRefs.current[temp].current.scrollIntoView({
         behavior: "smooth",
       });
     }
+    setScrollIndex(temp - scrollOffset);
   };
-
-  console.log(execWidth);
 
   return (
     <div className="bg-[#1e1e1e]">
@@ -150,7 +142,8 @@ export default function Home() {
       <div className="flex mt-10">
         <button
           onClick={scrollLeft}
-          className="bg-none opacity-75"
+          className={`bg-none`}
+          style={{ opacity: scrollIndex === 0 ? 0.2 : 1 }}
           title="Scroll Left"
         >
           <Image src={chevronLeft} className="w-[100px]" alt="right" />
@@ -171,7 +164,21 @@ export default function Home() {
         </div>
         <button
           onClick={scrollRight}
-          className="bg-none opacity-75"
+          className="bg-none"
+          style={{
+            opacity:
+              ExecMember.length -
+                1 -
+                (scrollContainerRef.current != null
+                  ? Math.floor(
+                      scrollContainerRef.current.clientWidth /
+                        scrollRefs.current[0].current.clientWidth
+                    )
+                  : 0) <=
+              scrollIndex
+                ? 0.2
+                : 1,
+          }}
           title="Scroll Right"
         >
           <Image src={chevronRight} className="w-[100px]" alt="right" />
