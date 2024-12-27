@@ -112,12 +112,14 @@ export default function Home() {
         </div>
         <div className="md:flex-[2_1_0%] flex-1"></div>
       </div>
-      <div className="float-right">
-        <Image
-          src={mars}
-          alt="Mars"
-          className="absolute transform translate-x-[-60%] translate-y-[-40%] scale-[0.9]"
-        />
+      <div className="float-right overflow-hidden">
+        <div className="absolute translate-x-[-300px] translate-y-[-30%] w-[300px] h-[500px] overflow-hidden">
+          <Image
+            src={mars}
+            alt="Mars"
+            className="transform translate-x-[100px] translate-y-[100px] scale-[1.8]"
+          />
+        </div>
       </div>
       <div className="flex mt-[120px]">
         <div className="flex-1" />
