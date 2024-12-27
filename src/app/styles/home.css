@@ -7,9 +7,3 @@
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
-
-.grid-container {
-  display: grid;
-  grid-auto-flow: column;
-  overflow-x: auto;
-}

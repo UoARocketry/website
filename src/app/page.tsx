@@ -52,6 +52,7 @@ export default function Home() {
     if (scrollContainerRef.current) {
       scrollRefs.current[temp].current.scrollIntoView({
         behavior: "smooth",
+        block: "nearest",
       });
     }
     setScrollIndex(temp);
@@ -74,6 +75,7 @@ export default function Home() {
     if (scrollContainerRef.current) {
       scrollRefs.current[temp].current.scrollIntoView({
         behavior: "smooth",
+        block: "nearest",
       });
     }
     setScrollIndex(temp - scrollOffset);
@@ -161,7 +163,10 @@ export default function Home() {
         >
           <Image src={chevronLeft} className="w-[100px]" alt="right" />
         </button>
-        <div className="grid-container hide-scrollbar" ref={scrollContainerRef}>
+        <div
+          className="grid grid-flow-col overflow-x-auto hide-scrollbar"
+          ref={scrollContainerRef}
+        >
           {ExecMember.map((member, index) => (
             <div
               ref={scrollRefs.current[index]}
