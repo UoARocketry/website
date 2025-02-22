@@ -1,23 +1,27 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
 
-const uri = process.env.MONGO_URI as string; // MongoDB connection string from .env
-let client: MongoClient | null = null;
+dotenv.config();
 
-export const connectMongo = async () => {
-  if (client) {
-    console.log('Using existing MongoDB connection');
-    return client.db(); // Return the database object
-  }
+const uri = process.env.MONGO_URI;
+if (!uri) {
+  throw new Error("MONGO_URI is not defined in your .env file");
+}
 
-  try {
-    client = new MongoClient(uri);
-    await client.connect();
-    console.log('Connected to MongoDB');
-    return client.db(); // Return the database object
-  } catch (error) {
-    console.error('Failed to connect to MongoDB', error);
-    throw error;
-  }
-};
+let client: MongoClient;
+let clientPromise: Promise<MongoClient>;
 
+// Add a type declaration for the global variable
+declare global {
+  // eslint-disable-next-line no-var
+  var _mongoClientPromise: Promise<MongoClient> | undefined;
+}
 
+if (!global._mongoClientPromise) {
+  client = new MongoClient(uri);
+  global._mongoClientPromise = client.connect();
+}
+
+clientPromise = global._mongoClientPromise;
+
+export default clientPromise; // Default export
