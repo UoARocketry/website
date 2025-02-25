@@ -19,22 +19,23 @@ const EventsPage = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
+      console.log("fetching events");
       try {
         const response = await fetch("/api/events");
         const data = await response.json();
 
-        if (!data.events || !Array.isArray(data.events)) {
+        console.log(data);
+
+        if (!data || !Array.isArray(data)) {
           console.error("No events found in the API response.");
           return;
         }
 
         const now = new Date();
-        const upcoming = data.events.filter(
+        const upcoming = data.filter(
           (event: Event) => new Date(event.date) > now
         );
-        const past = data.events.filter(
-          (event: Event) => new Date(event.date) <= now
-        );
+        const past = data.filter((event: Event) => new Date(event.date) <= now);
 
         setUpcomingEvents(upcoming);
         setPastEvents(past);
@@ -46,8 +47,40 @@ const EventsPage = () => {
     fetchEvents();
   }, []);
 
+  const addEvent = async () => {
+    const newEvent = {
+      title: "THis is fun",
+      description: "This is a fun event=",
+      date: new Date("2026-12-31"),
+      time: "18:00",
+      location: "Location of the new event",
+    };
+
+    try {
+      const response = await fetch("/api/events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newEvent),
+      });
+
+      console.log(response);
+
+      if (response.ok) {
+        const addedEvent = await response.json();
+        setUpcomingEvents((prevEvents) => [...prevEvents, addedEvent]);
+      } else {
+        console.error("Failed to add event");
+      }
+    } catch (error) {
+      console.error("Error adding event:", error);
+    }
+  };
+
   return (
     <div className={styles.eventsPage}>
+      <button onClick={addEvent}>Add Event</button>
       <h1>Upcoming Events</h1>
       {upcomingEvents.length > 0 ? (
         <div className={styles.eventsList}>

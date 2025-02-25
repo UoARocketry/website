@@ -49,7 +49,6 @@ const UpcomingEventsPage = () => {
           {upcomingEvents.map((event) => (
             <EventCard
               key={event._id}
-              id={event._id} // Map _id to id
               title={event.title}
               description={event.description}
               date={event.date}
