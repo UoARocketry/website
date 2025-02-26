@@ -5,7 +5,7 @@ import EventCard from "./EventCard";
 import styles from "./EventsPage.module.css";
 
 type Event = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   date: string;
@@ -85,7 +85,7 @@ const EventsPage = () => {
       {upcomingEvents.length > 0 ? (
         <div className={styles.eventsList}>
           {upcomingEvents.map((event) => (
-            <EventCard key={event.id} {...event} />
+            <EventCard key={event._id} {...event} />
           ))}
         </div>
       ) : (
@@ -96,7 +96,7 @@ const EventsPage = () => {
       {pastEvents.length > 0 ? (
         <div className={styles.eventsList}>
           {pastEvents.map((event) => (
-            <EventCard key={event.id} {...event} />
+            <EventCard key={event._id} {...event} />
           ))}
         </div>
       ) : (

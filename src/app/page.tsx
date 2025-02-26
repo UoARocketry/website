@@ -5,15 +5,19 @@ import Image from "next/image";
 import "./styles/home.css";
 import rocketCgi from "./resources/rocket-cgi.png";
 import mars from "./resources/mars.png";
-import chevronDown from "./resources/chevron down.svg";
 import chevronLeft from "./resources/chevron_backward.svg";
 import chevronRight from "./resources/chevron_forward.svg";
 import ExecTile from "./resources/exec_tile";
-import ExecMember from "./resources/execMembersData";
+
+type ExecMemberer = {
+  name: string;
+  title: string;
+};
 
 export default function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollRefs = useRef<React.RefObject<HTMLDivElement>[]>([]);
+  const [execMembers, setExecMembers] = useState<ExecMemberer[]>([]);
 
   // Width for exec tile
   const [execWidth, setExecWidth] = useState(220);
@@ -22,14 +26,18 @@ export default function Home() {
   const [scrollIndex, setScrollIndex] = useState(0);
 
   // Create refs for each ExecTile from supplied data
-  scrollRefs.current = [...Array(ExecMember.length).keys()].map(
-    (_, i) => scrollRefs.current[i] ?? createRef()
-  );
+  useEffect(() => {
+    scrollRefs.current = execMembers.map(
+      (_, i) => scrollRefs.current[i] ?? createRef()
+    );
+  }, [execMembers]);
 
   // Detect screen resize and update exec tile width
   useEffect(() => {
     const handleResize = () => {
+      if (execMembers.length === 0) return;
       if (scrollContainerRef.current) {
+        console.log(scrollContainerRef.current.clientWidth);
         setExecWidth(
           scrollContainerRef.current.clientWidth /
             Math.floor(scrollContainerRef.current.clientWidth / 220)
@@ -41,15 +49,40 @@ export default function Home() {
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [execWidth]);
+  }, [execMembers]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      console.log("fetching events");
+      try {
+        const response = await fetch("/api/members");
+        const data = await response.json();
+
+        console.log(data);
+
+        if (!data || !Array.isArray(data)) {
+          console.error("No events found in the API response.");
+          return;
+        }
+
+        setExecMembers(data);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   // Scroll exec tiles left
   const scrollLeft = () => {
     // If scrollIndex is 0, do nothing
     const temp = Math.max(1, scrollIndex) - 1;
 
+    console.log(scrollIndex);
+
     //Scroll to the left
-    if (scrollContainerRef.current) {
+    if (scrollContainerRef.current && scrollRefs.current[temp]?.current) {
       scrollRefs.current[temp].current.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
@@ -60,6 +93,7 @@ export default function Home() {
 
   // Scroll exec tiles right
   const scrollRight = () => {
+    console.log(scrollIndex);
     let temp = 0;
     let scrollOffset = 0;
     if (scrollContainerRef.current) {
@@ -68,11 +102,11 @@ export default function Home() {
         scrollContainerRef.current.clientWidth /
           scrollRefs.current[0].current.clientWidth
       );
-      temp = Math.min(scrollIndex + scrollOffset, ExecMember.length - 2) + 1;
+      temp = Math.min(scrollIndex + scrollOffset, execMembers.length - 2) + 1;
     }
 
     //scroll to the right
-    if (scrollContainerRef.current) {
+    if (scrollContainerRef.current && scrollRefs.current[temp]?.current) {
       scrollRefs.current[temp].current.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
@@ -156,6 +190,7 @@ export default function Home() {
         </div>
         <div className="flex-[3_3_0%]" />
       </div>
+
       <div className="flex mt-10">
         <button
           onClick={scrollLeft}
@@ -169,18 +204,22 @@ export default function Home() {
           className="grid grid-flow-col overflow-x-auto hide-scrollbar"
           ref={scrollContainerRef}
         >
-          {ExecMember.map((member, index) => (
-            <div
-              ref={scrollRefs.current[index]}
-              key={index}
-              className="flex justify-center"
-              style={{
-                width: execWidth,
-              }}
-            >
-              <ExecTile name={member.name} title={member.title} key={index} />
-            </div>
-          ))}
+          {execMembers.length === 0 ? (
+            <p>Loading...</p>
+          ) : (
+            execMembers.map((member, index) => (
+              <div
+                ref={scrollRefs.current[index]}
+                key={index}
+                className="flex justify-center"
+                style={{
+                  width: execWidth,
+                }}
+              >
+                <ExecTile name={member.name} title={member.title} key={index} />
+              </div>
+            ))
+          )}
         </div>
         <button
           onClick={scrollRight}
@@ -188,15 +227,17 @@ export default function Home() {
           style={{
             // If exec scroll is at end fade end button
             opacity:
-              ExecMember.length -
+              execMembers.length === 0 ||
+              execMembers.length -
                 1 -
-                (scrollContainerRef.current != null
+                (scrollContainerRef.current != null &&
+                scrollRefs.current[0]?.current != null
                   ? Math.floor(
                       scrollContainerRef.current.clientWidth /
-                        scrollRefs.current[0].current.clientWidth
+                        (scrollRefs.current[0].current.clientWidth || 1)
                     )
                   : 0) <=
-              scrollIndex
+                scrollIndex
                 ? 0.2
                 : 1,
           }}
@@ -205,6 +246,7 @@ export default function Home() {
           <Image src={chevronRight} className="w-[100px]" alt="right" />
         </button>
       </div>
+
       <div className="flex mt-20">
         <div className="flex-1" />
         <div className="flex-[6_8_0%]">
