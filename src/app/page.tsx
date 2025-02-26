@@ -37,7 +37,6 @@ export default function Home() {
     const handleResize = () => {
       if (execMembers.length === 0) return;
       if (scrollContainerRef.current) {
-        console.log(scrollContainerRef.current.clientWidth);
         setExecWidth(
           scrollContainerRef.current.clientWidth /
             Math.floor(scrollContainerRef.current.clientWidth / 220)
@@ -53,12 +52,9 @@ export default function Home() {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      console.log("fetching events");
       try {
         const response = await fetch("/api/members");
         const data = await response.json();
-
-        console.log(data);
 
         if (!data || !Array.isArray(data)) {
           console.error("No events found in the API response.");
@@ -79,8 +75,6 @@ export default function Home() {
     // If scrollIndex is 0, do nothing
     const temp = Math.max(1, scrollIndex) - 1;
 
-    console.log(scrollIndex);
-
     //Scroll to the left
     if (scrollContainerRef.current && scrollRefs.current[temp]?.current) {
       scrollRefs.current[temp].current.scrollIntoView({
@@ -93,7 +87,6 @@ export default function Home() {
 
   // Scroll exec tiles right
   const scrollRight = () => {
-    console.log(scrollIndex);
     let temp = 0;
     let scrollOffset = 0;
     if (scrollContainerRef.current) {

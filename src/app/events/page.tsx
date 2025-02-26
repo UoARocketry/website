@@ -19,12 +19,9 @@ const EventsPage = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      console.log("fetching events");
       try {
         const response = await fetch("/api/events");
         const data = await response.json();
-
-        console.log(data);
 
         if (!data || !Array.isArray(data)) {
           console.error("No events found in the API response.");
@@ -64,9 +61,6 @@ const EventsPage = () => {
         },
         body: JSON.stringify(newEvent),
       });
-
-      console.log(response);
-
       if (response.ok) {
         const addedEvent = await response.json();
         setUpcomingEvents((prevEvents) => [...prevEvents, addedEvent]);
