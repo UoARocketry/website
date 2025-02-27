@@ -9,7 +9,7 @@ import chevronLeft from "./resources/chevron_backward.svg";
 import chevronRight from "./resources/chevron_forward.svg";
 import ExecTile from "./resources/exec_tile";
 
-type ExecMemberer = {
+type ExecMember = {
   name: string;
   title: string;
 };
@@ -17,20 +17,13 @@ type ExecMemberer = {
 export default function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollRefs = useRef<React.RefObject<HTMLDivElement>[]>([]);
-  const [execMembers, setExecMembers] = useState<ExecMemberer[]>([]);
+  const [execMembers, setExecMembers] = useState<ExecMember[]>([]);
 
   // Width for exec tile
   const [execWidth, setExecWidth] = useState(220);
 
   // Index the exec tiles are scrolled to
   const [scrollIndex, setScrollIndex] = useState(0);
-
-  // Create refs for each ExecTile from supplied data
-  useEffect(() => {
-    scrollRefs.current = execMembers.map(
-      (_, i) => scrollRefs.current[i] ?? createRef()
-    );
-  }, [execMembers]);
 
   // Detect screen resize and update exec tile width
   useEffect(() => {
@@ -43,6 +36,11 @@ export default function Home() {
         );
       }
     };
+
+    // Create refs for each ExecTile from supplied data
+    scrollRefs.current = execMembers.map(
+      (_, i) => scrollRefs.current[i] ?? createRef()
+    );
 
     window.addEventListener("resize", handleResize);
     handleResize();
@@ -187,8 +185,7 @@ export default function Home() {
       <div className="flex mt-10">
         <button
           onClick={scrollLeft}
-          className={`bg-none`}
-          style={{ opacity: scrollIndex === 0 ? 0.2 : 1 }} // If exec scroll is at start fade button
+          className={`bg-none ${scrollIndex === 0 ? "opacity-20" : "opacity-100"}`} // If exec scroll is at start fade button
           title="Scroll Left"
         >
           <Image src={chevronLeft} className="w-[100px]" alt="right" />
@@ -198,6 +195,8 @@ export default function Home() {
           ref={scrollContainerRef}
         >
           {execMembers.length === 0 ? (
+            // If exec data is not loaded show loading message
+            //TODO Add skeleton loading
             <p>Loading...</p>
           ) : (
             execMembers.map((member, index) => (
@@ -216,24 +215,22 @@ export default function Home() {
         </div>
         <button
           onClick={scrollRight}
-          className="bg-none"
-          style={{
-            // If exec scroll is at end fade end button
-            opacity:
-              execMembers.length === 0 ||
-              execMembers.length -
-                1 -
-                (scrollContainerRef.current != null &&
-                scrollRefs.current[0]?.current != null
-                  ? Math.floor(
-                      scrollContainerRef.current.clientWidth /
-                        (scrollRefs.current[0].current.clientWidth || 1)
-                    )
-                  : 0) <=
-                scrollIndex
-                ? 0.2
-                : 1,
-          }}
+          // TODO pull ref references out of the BOM and into a variable that is set in the useEffect
+          className={`bg-none ${
+            execMembers.length === 0 ||
+            execMembers.length -
+              1 -
+              (scrollContainerRef.current != null &&
+              scrollRefs.current[0]?.current != null
+                ? Math.floor(
+                    scrollContainerRef.current.clientWidth /
+                      (scrollRefs.current[0].current.clientWidth || 1)
+                  )
+                : 0) <=
+              scrollIndex
+              ? "opacity-20"
+              : "opacity-100"
+          }`} // If exec scroll is at end fade button
           title="Scroll Right"
         >
           <Image src={chevronRight} className="w-[100px]" alt="right" />
