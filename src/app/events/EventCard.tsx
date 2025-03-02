@@ -1,11 +1,10 @@
-import React from "react";
-
 type EventCardProps = {
   title: string;
-  description: string;
+  description?: string;
   date: string;
   time: string;
   location: string;
+  imageUrl?: string;
 };
 
 const EventCard: React.FC<EventCardProps> = ({
@@ -14,11 +13,18 @@ const EventCard: React.FC<EventCardProps> = ({
   date,
   time,
   location,
+  imageUrl,
 }) => {
   return (
-    <div className="event-card">
-      <h2>{title}</h2>
-      <p>{description}</p>
+    <div className="eventCard">
+      <img
+        src={imageUrl || "/placeholder.png"}
+        alt={title}
+        className="eventImage"
+      />{" "}
+      {/* Adds image */}
+      <h3>{title}</h3>
+      <p>{description || "No description available."}</p>
       <p>
         {date} at {time}
       </p>

@@ -1,34 +1,24 @@
-import { MongoClient } from "mongodb";
-import dotenv from "dotenv";
+import { MongoClient, Db } from "mongodb";
 
-dotenv.config();
+const MONGO_URI = process.env.MONGO_URI; // Load MongoDB URI from environment
 
-const uri = process.env.MONGODB_URI;
-
-if (!uri) {
-  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
+if (!MONGO_URI) {
+  throw new Error(
+    "Please define the MONGO_URI environment variable in .env.local"
+  );
 }
 
-const options = {};
+const client = new MongoClient(MONGO_URI); // Create MongoDB client
+let db: Db | null = null; // Database instance
 
-let client: MongoClient;
-
-if (process.env.NODE_ENV === "development") {
-  // In development mode, use a global variable so that the value
-  // is preserved across module reloads caused by HMR (Hot Module Replacement).
-  let globalWithMongo = global as typeof globalThis & {
-    _mongoClient?: MongoClient;
-  };
-
-  if (!globalWithMongo._mongoClient) {
-    globalWithMongo._mongoClient = new MongoClient(uri, options);
+// Function to connect to MongoDB and return the database instance
+const connectDb = async (): Promise<Db> => {
+  if (!db) {
+    await client.connect();
+    db = client.db(); // Connect to the default database
+    console.log("✅ Connected to MongoDB");
   }
-  client = globalWithMongo._mongoClient;
-} else {
-  // In production mode, it's best to not use a global variable.
-  client = new MongoClient(uri, options);
-}
+  return db;
+};
 
-// Export a module-scoped MongoClient. By doing this in a
-// separate module, the client can be shared across functions.
-export default client;
+export default connectDb; // ✅ Use default export

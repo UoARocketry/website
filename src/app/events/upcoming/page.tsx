@@ -1,20 +1,22 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import EventCard from "../EventCard";
-import styles from "../EventsPage.module.css";
+import EventCard from "../EventCard"; // Ensure this path is correct
+import styles from "../styles/EventsPage.module.css"; // Ensure this path is correct
 
 type Event = {
   _id: string;
   title: string;
-  description: string;
+  description?: string;
   date: string;
   time: string;
   location: string;
+  imageUrl?: string;
 };
 
 const UpcomingEventsPage = () => {
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -22,19 +24,23 @@ const UpcomingEventsPage = () => {
         const response = await fetch("/api/events");
         const data = await response.json();
 
-        if (!data.events || !Array.isArray(data.events)) {
-          console.error("No events found in the API response.");
+        if (!Array.isArray(data)) {
+          console.error("API response is not an array:", data);
           return;
         }
 
+        // ✅ Convert MongoDB date format and filter future events
         const now = new Date();
-        const upcoming = data.events.filter(
-          (event: Event) => new Date(event.date) > now
-        );
+        const upcoming = data.filter((event: Event) => {
+          const eventDate = new Date(event.date);
+          return eventDate > now;
+        });
 
         setUpcomingEvents(upcoming);
       } catch (error) {
         console.error("Error fetching events:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -43,22 +49,26 @@ const UpcomingEventsPage = () => {
 
   return (
     <div className={styles.eventsPage}>
-      <h1>Upcoming Events</h1>
-      {upcomingEvents.length > 0 ? (
+      <h1 className={styles.pageTitle}>Upcoming Events</h1>
+
+      {loading ? (
+        <p>Loading events...</p>
+      ) : upcomingEvents.length > 0 ? (
         <div className={styles.eventsList}>
           {upcomingEvents.map((event) => (
             <EventCard
               key={event._id}
               title={event.title}
-              description={event.description}
+              description={event.description || "No description available."}
               date={event.date}
               time={event.time}
               location={event.location}
+              imageUrl={event.imageUrl || "/placeholder.png"}
             />
           ))}
         </div>
       ) : (
-        <p>No upcoming events found.</p>
+        <p className={styles.noEvents}>No upcoming events found.</p>
       )}
     </div>
   );

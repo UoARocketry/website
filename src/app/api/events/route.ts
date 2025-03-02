@@ -1,48 +1,17 @@
-import client from "../../../lib/mongo";
 import { NextResponse } from "next/server";
+import connectDb from "@/lib/mongo"; // ✅ Use default import
 
 export async function GET() {
   try {
-    const db = client.db("eventsDB");
-    const events = await db.collection("events").find().toArray();
+    const db = await connectDb(); // ✅ Ensure database is connected
+    const eventsCollection = db.collection("events"); // ✅ Fetch the collection
+
+    const events = await eventsCollection.find().toArray(); // ✅ Fetch events
     return NextResponse.json(events);
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error("Error fetching events:", error);
     return NextResponse.json(
       { error: "Failed to fetch events" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function POST(req: Request) {
-  try {
-    const db = client.db("eventsDB");
-    const { title, description, date, time, location } = await req.json();
-    const result = await db.collection("events").insertOne({
-      title,
-      description,
-      date,
-      time,
-      location,
-    });
-
-    //Check if the event was created successfully and return the appropriate response
-    if (!result.acknowledged) {
-      return NextResponse.json(
-        { error: "Failed to create event" },
-        { status: 500 }
-      );
-    } else {
-      return NextResponse.json(
-        { message: "Event created successfully" },
-        { status: 200 }
-      );
-    }
-  } catch (e) {
-    console.error(e);
-    return NextResponse.json(
-      { error: "Failed to create event" },
       { status: 500 }
     );
   }
