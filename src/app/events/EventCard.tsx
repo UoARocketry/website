@@ -7,27 +7,13 @@ type EventCardProps = {
   imageUrl?: string;
 };
 
-const EventCard: React.FC<EventCardProps> = ({
-  title,
-  description,
-  date,
-  time,
-  location,
-  imageUrl,
-}) => {
+const EventCard: React.FC<EventCardProps> = ({ title, description, date, time, location, imageUrl }) => {
   return (
     <div className="eventCard">
-      <img
-        src={imageUrl || "/placeholder.png"}
-        alt={title}
-        className="eventImage"
-      />{" "}
-      {/* Adds image */}
+      <img src={imageUrl || "/placeholder.png"} alt={title} className="eventImage" />
       <h3>{title}</h3>
       <p>{description || "No description available."}</p>
-      <p>
-        {date} at {time}
-      </p>
+      <p>{date} at {time}</p>
       <p>{location}</p>
     </div>
   );
