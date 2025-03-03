@@ -1,61 +1,43 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import EventCard from "../EventCard";
-import styles from "../EventsPage.module.css";
 
-type Event = {
+type EventType = {
   _id: string;
   title: string;
   description: string;
   date: string;
   time: string;
   location: string;
+  image?: string;
 };
 
-export default function PastEventsPage() {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function PastEvents() {
+  const [events, setEvents] = useState<EventType[]>([]); // ✅ Use correct type
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await fetch("/api/events");
-        const data = await response.json();
-        const now = new Date();
+    fetch("/api/events")
+      .then((res) => res.json())
+      .then((data: EventType[]) => {
         const pastEvents = data.filter(
-          (event: Event) => new Date(event.date) <= now
+          (event) => new Date(event.date) < new Date()
         );
         setEvents(pastEvents);
-      } catch (error) {
-        console.error("Failed to fetch events:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
+      })
+      .catch((err) => console.error("Error fetching events:", err));
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-
   return (
-    <div className={styles.eventsPage}>
-      <h1>Past Events</h1>
-      <div className={styles.eventsList}>
+    <div className="bg-black text-white min-h-screen p-10">
+      <h1 className="text-3xl font-bold text-center mt-8">Past Events</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {events.length > 0 ? (
-          events.map((event) => (
-            <EventCard
-              key={event._id}
-              title={event.title}
-              description={event.description}
-              date={event.date}
-              time={event.time}
-              location={event.location}
-            />
+          events.map((event: EventType) => (
+            <EventCard key={event._id} event={event} />
           ))
         ) : (
-          <p>No past events found.</p>
+          <p className="text-center text-gray-300 col-span-full">
+            No past events.
+          </p>
         )}
       </div>
     </div>
