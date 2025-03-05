@@ -1,47 +1,49 @@
 "use client";
-import { useEffect, useState } from "react";
-import EventCard from "../comopnents/EventCard";
 
-type EventType = {
+import React, { useEffect, useState } from "react";
+import EventCard from "../components/EventCard"; // Ensure the import path is correct
+
+interface Event {
   _id: string;
-  title: string;
-  description: string;
+  name: string;
   date: string;
   time: string;
   location: string;
-  image?: string;
+  type: string;
+}
+
+const fetchEvents = async (): Promise<Event[]> => {
+  try {
+    const res = await fetch("/api/events");
+    const data = await res.json();
+    return data.filter((event: Event) => event.type === "past");
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    return [];
+  }
 };
 
-export default function PastEventsPage() {
-  const [events, setEvents] = useState<EventType[]>([]);
+const PastEvents = () => {
+  const [events, setEvents] = useState<Event[]>([]);
 
   useEffect(() => {
-    fetch("/api/events")
-      .then((res) => res.json())
-      .then((data: EventType[]) => {
-        // Filter out events that happened in the past
-        const pastEvents = data.filter(
-          (event) => new Date(event.date) < new Date()
-        );
-        setEvents(pastEvents);
-      })
-      .catch((err) => console.error("Error fetching events:", err));
+    fetchEvents().then(setEvents);
   }, []);
 
   return (
-    <div className="bg-black text-white min-h-screen p-10">
-      <h1 className="text-3xl font-bold text-center mt-8">Past Events</h1>
-
-      {/* Grid Layout */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6 justify-center">
+    <div className="min-h-screen bg-black text-white p-10">
+      <h1 className="text-center text-5xl font-semibold mb-10 font-montserrat">
+        Past Events
+      </h1>
+      <div className="grid grid-cols-2 gap-6 justify-center">
         {events.length > 0 ? (
-          events.map((event) => <EventCard key={event._id} event={event} />)
+          events.map((event) => <EventCard key={event._id} {...event} />)
         ) : (
-          <p className="text-center text-gray-300 col-span-full">
-            No past events.
-          </p>
+          <p className="text-center text-lg">No past events found.</p>
         )}
       </div>
     </div>
   );
-}
+};
+
+export default PastEvents;

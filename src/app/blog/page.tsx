@@ -1,76 +1,92 @@
-import Link from "next/link";
-import blogData from "./blogData";
+"use client";
+import React from "react";
+import Link from "next/link"; // If you need it, otherwise remove
+
+// Hardcoded sample data (no external file needed)
+const posts = [
+  {
+    id: "1",
+    date: "10/12/2024",
+    title: "Blog Title",
+    author: "Ayesha Babar",
+  },
+  {
+    id: "2",
+    date: "10/12/2024",
+    title: "Blog Title",
+    author: "Ayesha Babar",
+  },
+  {
+    id: "3",
+    date: "10/12/2024",
+    title: "Blog Title",
+    author: "Ayesha Babar",
+  },
+  {
+    id: "4",
+    date: "10/12/2024",
+    title: "Blog Title",
+    author: "Ayesha Babar",
+  },
+  {
+    id: "5",
+    date: "10/12/2024",
+    title: "Blog Title",
+    author: "Ayesha Babar",
+  },
+  {
+    id: "6",
+    date: "10/12/2024",
+    title: "Blog Title",
+    author: "Ayesha Babar",
+  },
+  {
+    id: "7",
+    date: "10/12/2024",
+    title: "Blog Title",
+    author: "Ayesha Babar",
+  },
+  {
+    id: "8",
+    date: "10/12/2024",
+    title: "Blog Title",
+    author: "Ayesha Babar",
+  },
+  {
+    id: "9",
+    date: "10/12/2024",
+    title: "Blog Title",
+    author: "Ayesha Babar",
+  },
+];
 
 export default function BlogPage() {
   return (
-    <div style={{ padding: "20px", backgroundColor: "#1e1e1e", color: "#fff" }}>
-      <h1
-        style={{ textAlign: "center", marginBottom: "40px", color: "#FF4500" }}
-      >
+    <div style={{ padding: "20px", backgroundColor: "black", minHeight: "100vh" }}>
+      <h1 style={{ textAlign: "center", color: "white", margin: "20px 0" }}>
         Recent Blog Posts
       </h1>
+
+      {/* Grid container */}
       <div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
           gap: "20px",
+          maxWidth: "1200px",
+          margin: "0 auto", // Center the grid
         }}
       >
-        {blogData.blogs.map((blog) => (
-          <div
-            key={blog.id}
-            style={{
-              width: "100%",
-              maxWidth: "300px",
-              backgroundColor: "#1e1e1e",
-              borderRadius: "8px",
-              overflow: "hidden",
-              border: "2px solid #FF4500",
-            }}
-          >
-            {/* Image Placeholder */}
-            <div
-              style={{
-                width: "100%",
-                height: "150px",
-                backgroundColor: "#cccccc",
-              }}
-            ></div>
-            {/* Blog Title Section */}
-            <div
-              style={{
-                backgroundColor: "#FF4500",
-                padding: "10px",
-                textAlign: "center",
-              }}
-            >
-              <p style={{ color: "#fff", margin: "5px 0", fontSize: "14px" }}>
-                {blog.date}
-              </p>
-              <h2
-                style={{
-                  color: "#fff",
-                  margin: "5px 0",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                }}
-              >
-                {blog.title}
-              </h2>
-              <p style={{ color: "#fff", margin: "5px 0", fontSize: "14px" }}>
-                By: {blog.author}
-              </p>
-              <Link
-                href={`/blog/${blog.id}`}
-                style={{
-                  color: "#fff",
-                  textDecoration: "underline",
-                  display: "block",
-                  marginTop: "10px",
-                }}
-              >
-                View Details
-              </Link>
+        {posts.map((post) => (
+          <div key={post.id} style={{ backgroundColor: "#333", borderRadius: "8px" }}>
+            {/* Gray area (placeholder for an image) */}
+            <div style={{ height: "200px", backgroundColor: "#999" }} />
+
+            {/* Orange area for date, title, author */}
+            <div style={{ backgroundColor: "#C34F27", padding: "10px", color: "white" }}>
+              <p>{post.date}</p>
+              <h2 style={{ margin: "5px 0" }}>{post.title}</h2>
+              <p>By: {post.author}</p>
             </div>
           </div>
         ))}

@@ -1,18 +1,22 @@
-import { NextResponse } from 'next/server';
-import connectDb from '@/lib/mongo'; // ✅ Import default
+import { NextResponse } from "next/server";
+import { MongoClient } from "mongodb";
+
+const MONGO_URI = process.env.MONGO_URI as string;
+const client = new MongoClient(MONGO_URI);
 
 export async function GET() {
   try {
-    const db = await connectDb(); // ✅ Get the database instance
-    const eventsCollection = db.collection('events'); // ✅ Fetch the events collection
-
-    const events = await eventsCollection.find().toArray(); // ✅ Fetch all events
-    console.log('Events fetched:', events); // Debugging log
-
+    await client.connect();
+    const db = client.db("yourDatabaseName");
+    const events = await db.collection("events").find().toArray();
     return NextResponse.json(events);
   } catch (error) {
-    console.error(' Error fetching events:', error);
-    return NextResponse.json({ error: 'Failed to fetch events' }, { status: 500 });
+    console.error("Error fetching events:", error);
+    return NextResponse.json(
+      { error: "Failed to load events" },
+      { status: 500 }
+    );
+  } finally {
+    await client.close();
   }
 }
-
