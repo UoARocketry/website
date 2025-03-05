@@ -17,18 +17,13 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Ensure all page headings use Montserrat and match the design */
 h1 {
   font-family: "Montserrat", sans-serif;
-  font-weight: 600; /* Semi-bold */
-  font-size: 60px; /* Matches your design */
+  font-weight: 600;
+  font-size: 60px;
   text-align: center;
   color: white;
   margin-bottom: 2rem;
