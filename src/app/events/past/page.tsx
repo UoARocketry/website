@@ -1,7 +1,7 @@
+"use client";
 import { useEffect, useState } from "react";
-import EventCard from "../EventCard";
+import EventCard from "../comopnents/EventCard";
 
-// Define the event type inside this file
 type EventType = {
   _id: string;
   title: string;
@@ -12,14 +12,14 @@ type EventType = {
   image?: string;
 };
 
-export default function PastEvents() {
-  const [events, setEvents] = useState<EventType[]>([]); // ✅ Correctly typed state
+export default function PastEventsPage() {
+  const [events, setEvents] = useState<EventType[]>([]);
 
   useEffect(() => {
     fetch("/api/events")
       .then((res) => res.json())
       .then((data: EventType[]) => {
-        // ✅ Ensure API response is typed
+        // Filter out events that happened in the past
         const pastEvents = data.filter(
           (event) => new Date(event.date) < new Date()
         );
@@ -35,9 +35,7 @@ export default function PastEvents() {
       {/* Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6 justify-center">
         {events.length > 0 ? (
-          events.map((event: EventType) => (
-            <EventCard key={event._id} event={event} />
-          ))
+          events.map((event) => <EventCard key={event._id} event={event} />)
         ) : (
           <p className="text-center text-gray-300 col-span-full">
             No past events.

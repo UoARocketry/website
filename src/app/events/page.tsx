@@ -1,101 +1,28 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
-import EventCard from "./EventCard";
-import styles from "./EventsPage.module.css";
-
-type Event = {
-  _id: string;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-};
+import React from "react";
+import Link from "next/link";
 
 const EventsPage = () => {
-  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
-  const [pastEvents, setPastEvents] = useState<Event[]>([]);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await fetch("/api/events");
-        const data = await response.json();
-
-        if (!data || !Array.isArray(data)) {
-          console.error("No events found in the API response.");
-          return;
-        }
-
-        const now = new Date();
-        const upcoming = data.filter(
-          (event: Event) => new Date(event.date) > now
-        );
-        const past = data.filter((event: Event) => new Date(event.date) <= now);
-
-        setUpcomingEvents(upcoming);
-        setPastEvents(past);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
-  const addEvent = async () => {
-    const newEvent = {
-      title: "THis is fun",
-      description: "This is a fun event=",
-      date: new Date("2026-12-31"),
-      time: "18:00",
-      location: "Location of the new event",
-    };
-
-    try {
-      const response = await fetch("/api/events", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newEvent),
-      });
-      if (response.ok) {
-        const addedEvent = await response.json();
-        setUpcomingEvents((prevEvents) => [...prevEvents, addedEvent]);
-      } else {
-        console.error("Failed to add event");
-      }
-    } catch (error) {
-      console.error("Error adding event:", error);
-    }
-  };
-
   return (
-    <div className={styles.eventsPage}>
-      <button onClick={addEvent}>Add Event</button>
-      <h1>Upcoming Events</h1>
-      {upcomingEvents.length > 0 ? (
-        <div className={styles.eventsList}>
-          {upcomingEvents.map((event) => (
-            <EventCard key={event._id} {...event} />
-          ))}
-        </div>
-      ) : (
-        <p>No upcoming events found.</p>
-      )}
+    <div className="min-h-screen bg-black text-white p-10">
+      <h1 className="text-center text-5xl font-semibold mb-10 font-montserrat">
+        Events
+      </h1>
 
-      <h1>Past Events</h1>
-      {pastEvents.length > 0 ? (
-        <div className={styles.eventsList}>
-          {pastEvents.map((event) => (
-            <EventCard key={event._id} {...event} />
-          ))}
-        </div>
-      ) : (
-        <p>No past events found.</p>
-      )}
+      {/* Links to Upcoming & Past Events */}
+      <div className="flex justify-center gap-10 mb-10">
+        <Link href="/events/upcoming">
+          <button className="px-6 py-3 bg-[#C2512C] text-white text-lg rounded-lg shadow-lg hover:bg-[#a14024]">
+            Upcoming Events
+          </button>
+        </Link>
+        <Link href="/events/past">
+          <button className="px-6 py-3 bg-[#C2512C] text-white text-lg rounded-lg shadow-lg hover:bg-[#a14024]">
+            Past Events
+          </button>
+        </Link>
+      </div>
+
+      <p className="text-center text-lg">Choose a category to view events.</p>
     </div>
   );
 };
