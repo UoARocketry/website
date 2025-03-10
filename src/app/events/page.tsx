@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import EventCard from "./components/EventCard"; // Ensure this is the correct import
+import EventCard from "./components/EventCard"; // Ensure correct path
 
 interface Event {
   _id: string;
-  title: string; //Changed from `name` to `title`
+  title: string;
   date: string;
   time: string;
   location: string;
@@ -15,9 +15,17 @@ interface Event {
 
 const fetchEvents = async (): Promise<Event[]> => {
   try {
-    const res = await fetch("/api/events");
+    const res = await fetch("/api/events"); // Calls your API
     const data = await res.json();
-    console.log("✅ Events fetched:", data);
+
+    console.log("✅ API Response:", data);
+
+    // Check if the response is actually an array
+    if (!Array.isArray(data)) {
+      console.error("API did not return an array!", data);
+      return [];
+    }
+
     return data;
   } catch (error) {
     console.error("Error fetching events:", error);
@@ -32,6 +40,12 @@ const EventsPage = () => {
   useEffect(() => {
     fetchEvents().then((events) => {
       console.log("Filtering events...");
+
+      if (!Array.isArray(events)) {
+        console.error("events is not an array, cannot filter!");
+        return;
+      }
+
       setUpcomingEvents(events.filter((event) => event.type === "upcoming"));
       setPastEvents(events.filter((event) => event.type === "past"));
     });

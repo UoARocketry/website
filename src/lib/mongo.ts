@@ -1,22 +1,31 @@
-import { MongoClient, Db } from 'mongodb';
+import { MongoClient } from "mongodb";
 
-const MONGO_URI = process.env.MONGO_URI; // Read MongoDB URI from .env.local
+const MONGO_URI = process.env.MONGO_URI as string;
 
 if (!MONGO_URI) {
-  throw new Error('Please define the MONGO_URI environment variable in .env.local');
+  throw new Error(
+    "❌ MongoDB connection string (MONGO_URI) is missing in .env.local"
+  );
 }
 
-const client = new MongoClient(MONGO_URI); // Create MongoDB client
-let db: Db | null = null; // Database instance
+// Global variable to store MongoDB client across hot reloads in development
+let client: MongoClient;
+let clientPromise: Promise<MongoClient>;
 
-// Function to connect to MongoDB and return the database instance
-const connectDb = async (): Promise<Db> => {
-  if (!db) {
-    await client.connect();
-    db = client.db(); // Connect to the database
-    console.log('✅ Connected to MongoDB');
+declare global {
+  var _mongoClientPromise: Promise<MongoClient>;
+}
+
+// Prevent multiple MongoDB connections in development
+if (process.env.NODE_ENV === "development") {
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(MONGO_URI);
+    global._mongoClientPromise = client.connect();
   }
-  return db;
-};
+  clientPromise = global._mongoClientPromise;
+} else {
+  client = new MongoClient(MONGO_URI);
+  clientPromise = client.connect();
+}
 
-export default connectDb; // ✅ Default export
+export default clientPromise;
