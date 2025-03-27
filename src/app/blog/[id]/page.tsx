@@ -1,7 +1,12 @@
 import blogData from "../blogData";
 
-export default function BlogDetails({ params }: { params: { id: string } }) {
-  const blog = blogData.blogs.find((b) => b.id.toString() === params.id);
+export default async function BlogDetails({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const blog = blogData.blogs.find((b) => b.id.toString() === id);
 
   if (!blog) {
     return (
@@ -78,7 +83,6 @@ export default function BlogDetails({ params }: { params: { id: string } }) {
 
         {/* Blog Content */}
         <div style={{ textAlign: "left", flex: 1 }}>
-          <p style={{ marginBottom: "20px" }}>{blog.content}</p>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
             elementum et felis sed fringilla. Morbi nec tincidunt dolor. Lorem
@@ -98,7 +102,9 @@ export default function BlogDetails({ params }: { params: { id: string } }) {
             elementum et felis sed fringilla. Morbi nec tincidunt dolor. Lorem
             ipsum dolor sit amet.orem ipsum dolor sit amet, consectetur
             adipiscing elit. Vivamus elementum et felis sed fringilla. Morbi nec
-            tincidunt dolor. Lorem ipsum dolor sit amet.
+            tincidunt dolor. Lorem ipsum dolor sit amet.orem ipsum dolor sit
+            amet, consectetur adipiscing elit. Vivamus elementum et felis sed
+            fringilla. Morbi nec tincidunt dolor. Lorem ipsum dolor sit amet.
           </p>
         </div>
       </div>

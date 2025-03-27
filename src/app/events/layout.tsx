@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -5,16 +7,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <nav>
           <ul>
             <li>
-              <a href="/">Home</a>
+              <Link href="/">Home</Link>
             </li>
             <li>
-              <a href="/events">Events</a>
+              <Link href="/events">Events</Link>
             </li>
             <li>
-              <a href="/upcoming">Upcoming</a>
+              <Link href="/upcoming">Upcoming</Link>
             </li>
             <li>
-              <a href="/past">Past</a>
+              <Link href="/past">Past</Link>
             </li>
           </ul>
         </nav>
